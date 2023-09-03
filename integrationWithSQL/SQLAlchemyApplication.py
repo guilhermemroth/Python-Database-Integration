@@ -5,11 +5,11 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
+from sqlalchemy import select
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
 from sqlalchemy import ForeignKey
-
 
 Base = declarative_base()
 
@@ -24,7 +24,7 @@ class User(Base):
         "Address", back_populates="user", cascade="all, delete-orphan"
     )
 
-    def __repr__():
+    def __repr__(self):
         return f"User(id={self.id}, name={self.name}, full_name={self.full_name})"
 
 class Address(Base):
@@ -38,7 +38,7 @@ class Address(Base):
         "User", back_populates="address"
     )
 
-    def __repr__():
+    def __repr__(self):
         return f"Address(id={self.id}, email_address={self.email_address})"
     
 
@@ -82,3 +82,13 @@ with Session(engine) as session:
     session.add_all([guilherme, fiodor, machado])
     
     session.commit()
+
+stmt = select(User).where(User.name.in_(["machado"]))
+print('\nRecuperando dados a partir de condição de filtragem.')
+for user in session.scalars(stmt):
+    print(user)
+
+stmt_address = select(Address).where(Address.user_id.in_([2]))
+print('\nRecuperando dados a partir de condição de filtragem.')
+for address in session.scalars(stmt_address):
+    print(address)
