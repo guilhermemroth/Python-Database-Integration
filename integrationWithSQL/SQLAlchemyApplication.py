@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import create_engine
 from sqlalchemy import inspect
 from sqlalchemy import select
+from sqlalchemy import func
 from sqlalchemy import Column
 from sqlalchemy import Integer
 from sqlalchemy import String
@@ -70,7 +71,7 @@ with Session(engine) as session:
         name='fiódor',
         full_name='Fiódor Dostoiévsky',
         address=[Address(email_address='fiodor_dost@karamazov.com'),
-                 Address(email_address='fdostoievsky@raskólnikov.com')]
+                 Address(email_address='fdostoievsky@raskolnikov.com')]
     )
 
     machado = User(
@@ -92,3 +93,30 @@ stmt_address = select(Address).where(Address.user_id.in_([2]))
 print('\nRecuperando dados a partir de condição de filtragem.')
 for address in session.scalars(stmt_address):
     print(address)
+
+print(f'\n{select(User).order_by(User.full_name.desc())}')
+
+stmt_order = select(User).order_by(User.full_name.desc())
+print('\nRecuperando dados de maneira ordenada.')
+for full_name in session.scalars(stmt_order):
+    print(full_name)
+
+stmt_join = select(User.full_name, Address.email_address).join_from(Address, User)
+print('\nRecuperando dados a partir de condição de filtragem.')
+for result in session.scalars(stmt_join):
+    print(result)
+
+# print(select(User.full_name, Address.email_address).join_from(Address, User))
+
+connection = engine.connect()
+results = connection.execute(stmt_join).fetchall()
+print('\nExecutando statement a partir da connection.')
+for result in results:
+    print(result)
+
+# print(f"\n{select(func.count('*')).select_from(User)}")
+
+stmt_count = select(func.count('*')).select_from(User)
+print('\nRetornando o total de instâncias em User')
+for count in session.scalars(stmt_count):
+    print(count)
