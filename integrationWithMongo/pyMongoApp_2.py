@@ -28,10 +28,26 @@ user_profile_user = [
     {"user_id": 212, "name": "Padme"}
 ]
 
-res = db.profile_user.insert_many(user_profile_user)
+# res = db.profile_user.insert_many(user_profile_user)
 
 collections = db.list_collection_names()
 
 print('\nCollections stored in mongodb')
 for collection in collections:
     print(collection)
+
+
+# db.posts = db['posts']
+
+
+# delete one
+posts.delete_one({'author': 'Mike'})
+
+
+# drop all
+db['posts'].drop() 
+# or db.posts.drop()
+db['profiles'].drop()
+# or db.profiles.drop()
+
+
