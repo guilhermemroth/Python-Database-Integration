@@ -28,7 +28,7 @@ user_profile_user = [
     {"user_id": 212, "name": "Padme"}
 ]
 
-# res = db.profile_user.insert_many(user_profile_user)
+res = db.profile_user.insert_many(user_profile_user)
 
 collections = db.list_collection_names()
 
@@ -50,4 +50,5 @@ db['posts'].drop()
 db['profiles'].drop()
 # or db.profiles.drop()
 
-
+# deleting db
+cliente.drop_database('test')
