@@ -32,7 +32,7 @@ class Client(Base):
 class Account(Base):
     __tablename__ = "account"
     id = Column(Integer, primary_key=True, autoincrement=True)
-    account = Column(String(15), default="C/C")
+    account = Column(String(15), default="Checking Account")
     number = Column(Integer, nullable=False)
     id_client = (Column(Integer, ForeignKey("client.id"), nullable=False))
 
@@ -64,7 +64,7 @@ with Session(engine) as session:
         full_name = "Joaquim Maria Machado de Assis",
         CPF = "123456789",
         address = "Rio de Janeiro",
-        account = [Account(account="C/P", number=1234)]
+        account = [Account(account="Savings Account", number=1234)]
     )
 
     fiodor = Client(
@@ -72,8 +72,8 @@ with Session(engine) as session:
         full_name = "Fiódor Dostoiévsky",
         CPF = "135798642",
         address = "Moscou",
-        account = [Account(account="C/P", number=1342),
-                   Account(account="C/P", number=6853)]
+        account = [Account(account="Savings Account", number=1342),
+                   Account(account="Savings Account", number=6853)]
     )
 
     gabriel = Client(
@@ -81,7 +81,7 @@ with Session(engine) as session:
         full_name = "Gabriel García Márquez",
         CPF = "246897531",
         address = "Aracataca",
-        account = [Account(account="C/C", number=1423)]
+        account = [Account(account="Checking Account", number=1423)]
     )
 
     alexandre = Client(
@@ -89,8 +89,8 @@ with Session(engine) as session:
         full_name = "Alexandre Dumas",
         CPF = "975312468",
         address = "Villers-Cotterêts",
-        account = [Account(account="C/P", number=1243),
-                   Account(account="C/C", number=7539)]
+        account = [Account(account="Savings Account", number=1243),
+                   Account(account="Checking Account", number=7539)]
     )
 
     yasunari = Client(
@@ -114,7 +114,9 @@ with Session(engine) as session:
         full_name = "Dante Alighieri",
         CPF = "234567890",
         address = "Florença",
-        account = [Account(number=2413)]
+        account = [Account(number=2413),
+                   Account(number=7490),
+                   Account(account="Savings Account", number=4567)]
     )
 
     franz = Client(
@@ -131,7 +133,7 @@ with Session(engine) as session:
         CPF = "639252047",
         address = "Newquay",
         account = [Account(number=3412),
-                   Account(account="C/P", number=9373)]
+                   Account(account="Savings Account", number=9373)]
     )
     
 
@@ -139,3 +141,25 @@ with Session(engine) as session:
     session.add_all([machado, fiodor, gabriel, alexandre, yasunari, james, dante, franz, william])
 
     session.commit()
+
+
+stmt_acc = select(Account).where(Account.id_client.in_([2]))
+print('\nReturning the account from id_client:\n')
+for acc in session.scalars(stmt_acc):
+    print(f"{acc}\n")
+
+
+stmt_count = (select(func.max(Client.full_name)).join(Account, Client.id == Account.id_client).group_by(Client.id).having(func.count() > 1))
+print('\nReturning clients with two or more accounts:\n')
+for count in session.scalars(stmt_count):
+    print(f"{count}\n")
+
+
+connection = engine.connect()
+
+stmt_join = select(Client.full_name, Account.account, Account.number).join_from(Account, Client)
+results = connection.execute(stmt_join).fetchall()
+print('\nReturning the full_name from Client table and the account and number from Account table with a join:\n')
+for result in results:
+    print(f"{result}\n")
+
