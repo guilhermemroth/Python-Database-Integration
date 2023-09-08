@@ -2,7 +2,7 @@ import pymongo as pym
 import datetime
 import pprint
 
-bank = pym.MongoClient("mongodb+srv://guilhermemroth:BtnBHsHjrSOenfgi@cluster0.lhpu10f.mongodb.net/?retryWrites=true&w=majority")
+bank = pym.MongoClient("mongodb+srv://guilhermemroth:<password>@cluster0.lhpu10f.mongodb.net/?retryWrites=true&w=majority")
 
 db = bank.accounts
 collection = db.collection
@@ -28,7 +28,7 @@ print('\n')
 
 # bulk inserts
 new_posts = [{"name": "fiodor",
-            "full_name": "Fiódor Dostoiévsky",
+            "full_name": "Fiódor Mikhailovitch Dostoiévski",
             "CPF": "135798642",
             "address": "Moscou",
             "account": "Savings Account",
@@ -36,7 +36,7 @@ new_posts = [{"name": "fiodor",
             "balance": 643.32},
 
             {"name": "fiodor",
-            "full_name": "Fiódor Dostoiévsky",
+            "full_name": "Fiódor Mikhailovitch Dostoiévski",
             "CPF": "135798642",
             "address": "Moscou",
             "account": "Savings Account",
@@ -44,7 +44,7 @@ new_posts = [{"name": "fiodor",
             "balance": 0},
 
             {"name": "gabriel",
-            "full_name": "Gabriel García Márquez",
+            "full_name": "Gabriel José García Márquez",
             "CPF": "246897531",
             "address": "Aracataca",
             "account": "Checking Account",
@@ -75,7 +75,7 @@ new_posts = [{"name": "fiodor",
             "balance": 98763.43},
 
             {"name": "james",
-            "full_name": "James Joyce",
+            "full_name": "James Augustine Aloysius Joyce",
             "CPF": "098765432",
             "address": "Rathgar",
             "account": "Checking Account",
