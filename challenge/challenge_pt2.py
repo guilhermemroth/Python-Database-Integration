@@ -14,7 +14,7 @@ post = {
     "address": "Rio de Janeiro",
     "account": "Savings Account",
     "number": 1234,
-    "saldo": 123.45
+    "balance": 123.45
 }
 
 # preparing to submit the info
@@ -79,7 +79,8 @@ new_posts = [{"name": "fiodor",
             "CPF": "098765432",
             "address": "Rathgar",
             "account": "Checking Account",
-            "number": 2431},
+            "number": 2431,
+            "balance": 745.89},
 
             {"name": "dante",
             "full_name": "Dante Alighieri",
@@ -94,7 +95,8 @@ new_posts = [{"name": "fiodor",
             "CPF": "234567890",
             "address": "Florença",
             "account": "Checking Account",
-            "number": 2413},
+            "number": 2413,
+            "balance": 543},
 
             {"name": "dante",
             "full_name": "Dante Alighieri",
