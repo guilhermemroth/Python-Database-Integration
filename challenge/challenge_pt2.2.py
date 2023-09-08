@@ -21,7 +21,7 @@ print("\n")
 print(clients.count_documents({"name": "dante"}))
 print("\n")
 
-print("Returning formated\n")
+print("Returning from a condition\n")
 pprint.pprint(clients.find_one({"address": "Rio de Janeiro"}))
 
 print("\nReturning sorted:\n")
